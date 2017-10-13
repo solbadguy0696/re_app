@@ -53,10 +53,14 @@ function checkReferer() {
 }
 
 function transition($path) {
+  unsetSession();  // unsetSession();関数を実行する
   $data = $_POST;  // $_POSTの連想配列を変数に代入する
+  if(isset($data['todo'])) $res = validate($data['todo']);  //$dataのtodoに変数が定義されて入れば$resに、validate関数を実行し戻り値を代入する
   if($path === '/index.php' && $data['type'] === 'delete') {
     deleteData($data['id']);  // deleteData関数の引数に$dataのidを含め実行する
     return 'index';  // 文字列indexを返す
+  }elseif(!$res || !empty($_SESSION['err'])){  //$resではない、または$_SESSION['err']が空でない場合は
+    return 'back';
   }elseif($path === '/new.php'){
     create($data);  // create関数の引数に$_POSTを入れて実行する
   }elseif($path === '/edit.php'){
@@ -71,5 +75,9 @@ function detail($id) {
 
 function deleteData($id) {
   deleteDb($id);  // deleteDbの引数に$idを入れて実行する
+}
+
+function validate($data) {
+  return $res = $data != "" ? true : $_SESSION['err'] = '入力がありません';  // $dataの中身があった場合true。なかった場合$_SESSION['err']を$resに代入する
 }
 ?>
