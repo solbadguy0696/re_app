@@ -12,6 +12,17 @@ function connectPdo() {
   }
 }
 
+// データ全件取得
+function selectAll() {
+  $dbh = connectPdo();  // DBへの接続、PDOのインスタンスを代入する
+  $sql = 'SELECT * FROM todos WHERE deleted_at IS NULL';  // 変数にSQL命令を代入する、(論理)削除をしていない全件のデータを取得する
+  $todo = array();  // 新規に配列を生成初期化して変数に代入する
+  foreach($dbh->query($sql) as $row) {  //$dbhに対してquery(問い合わせ)を行い、$sqlでデータを取得したところでそれを$rowに入れる
+    array_push($todo, $row);  // $todo配列の最後にに$rowを追加する
+  }
+  return $todo;  // 変数$todoを返す
+}
+
 // insertDb関数の引数に$data持ってくる
 function insertDb($data) {
   $dbh = connectPdo();  // DBへの接続、PDOのインスタンスを代入する

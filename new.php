@@ -11,7 +11,7 @@
     <input type="submit" value="作成">
   </form>
   <div>
-    <a href="index.html">一覧へもどる</a>  <!--トップページに戻る-->
+    <a href="index.php">一覧へもどる</a>  <!--トップページに戻る-->
   </div>
 </body>
 </html>
