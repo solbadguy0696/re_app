@@ -4,6 +4,10 @@ require('functions.php');
 
 // functions.php内のcreate関数にPOSTデータを渡す
 // create($_POST);
-checkReferer();  // 関数の実行
-header('location: ./index.php');  // index.phpに遷移
+$res = checkReferer();  // 関数の実行後代入
+if($res == 'index') {
+  header('location: ./index.php');  // index.phpに遷移
+}else {
+  header('location: '.$_SERVER['HTTP_REFERER'].'');  // 前に居たページに遷移
+}
 ?>

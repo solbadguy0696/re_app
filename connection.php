@@ -55,4 +55,17 @@ function updateDb($id, $data) {
   $stmt->bindValue(':id', (int)$id, PDO::PARAM_INT);  // (対象となる文字列(:name形式のパラメータ名)、保存したい値(変数名)、PDOで保存対象データの型を指定(今回は文字列))未定義の配列を指定するとエラーが出る
   $stmt->execute();  // SQL命令を実行する
 }
+
+// 削除処理:論理削除
+function deleteDb($id) {
+  $dbh = connectPdo();  // DBへの接続、PDOのインスタンスを代入する
+  $nowTime = date("Y-m-d H:i:s");  // 日付を取得して変数に代入する
+  $sql = 'UPDATE todos SET deleted_at = :deleted_at WHERE id = :id';
+  // UPDATE table名 SET カラム名 = 格納する値 WHERE カラム名 = 値
+  // 変数にSQL命令を代入する、:todoは$stmt->bindParam() で渡ってきたデータを渡す
+  $stmt = $dbh->prepare($sql);  // prepareは値部分にパラメータを付けて実行待ち
+  $stmt->bindParam(':deleted_at', $nowTime);  // (対象となる文字列(:name形式のパラメータ名)、保存したい値(変数名)、PDOで保存対象データの型を指定(今回は文字列))
+  $stmt->bindValue(':id', $id, PDO::PARAM_INT);  // (対象となる文字列(:name形式のパラメータ名)、保存したい値(変数名)、PDOで保存対象データの型を指定(今回は文字列))未定義の配列を指定するとエラーが出る
+  $stmt->execute();  // SQL命令を実行する
+}
 ?>
