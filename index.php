@@ -28,7 +28,7 @@
           <td><?php echo $todo['id'] ?></td>  <!--$todo配列のidを出力-->
           <td><?php echo $todo['todo'] ?></td>  <!--$todo配列のtodoを出力-->
           <td>
-            <a href="">更新</a>
+            <a href="edit.php?id=<?php echo $todo['id'] ?>">  <!--URLクエリをIDにくっつけて更新対象のデータが何であるかをPHP側に伝える-->更新</a>
           </td>
           <td>
             <form action="store.php" method="POST">
