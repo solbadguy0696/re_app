@@ -11,4 +11,14 @@ function connectPdo() {
     exit;  // 終わりにする
   }
 }
+
+// insertDb関数の引数に$data持ってくる
+function insertDb($data) {
+  $dbh = connectPdo();  // DBへの接続、PDOのインスタンスを代入する
+  $sql = 'INSERT INTO todos (todo) VALUES (:todo)';
+  // 変数にSQL命令を代入する、:todoは$stmt->bindParam() で渡ってきたデータを渡す
+  $stmt = $dbh->prepare($sql);  // prepareは値部分にパラメータを付けて実行待ち
+  $stmt->bindParam(':todo', $data, PDO::PARAM_STR);  // (対象となる文字列(:neme形式のパラメータ名)、保存したい値(変数名)、PDOで保存対象データの型を指定(今回は文字列))
+  $stmt->execute();  // SQL命令を実行する
+}
 ?>
