@@ -1,10 +1,38 @@
 <?php
 // connection.phpの設定したファイルを読み込み、使用可能になる
 require('connection.php');
+session_start();  // セッションをスタートさせる
+
+// エスケープ処理
+function h($s) {
+  return htmlspecialchars($s, ENT_QUOTES, "UTF-8");  //特殊文字をHTMLの表現形式に変換する、クォート文字をどちらも変換する
+}
+
+// sessionに暗号化したtokenを入れる
+function setToken() {
+  $token = sha1(uniqid(mt_rand(),true));  // sha1ハッシュを計算する、uniqidユニークなidを生成する、mt_rand乱数を発生させる
+  $_SESSION['token'] = $token;  // $_SESSIONのtokenに変数tokenを代入する
+}
+
+// sessionのチェックを行いcsrf対策を行う
+function checkToken($data) {
+  if (empty($_SESSION['token']) || ($_SESSION['token'] != $data)){  // $_SESSIONのtokenが空か確かめる
+    $_SESSION['err'] = '不正な操作です';
+    header('location: '.$_SERVER['HTTP_REFERER'].'');  // 前に居たページに遷移する
+    exit();  // headerlocation後、処理を終わらせるために行う
+  }
+  return true;  // trueを返す
+}
+
+function unsetSession() {
+  if(!empty($_SESSION['err'])) $_SESSION['err'] = '';  // $_SESSIONのerrが空でなかったらそれを空にする
+}
 
 // 関数createを実行する
 function create($data) {
+  if(checkToken($data['token'])) {
   insertDb($data['todo']);  // 関数insertDbを引数$dataを持ってきた上で実行する
+  }
 }
 
 // 全件取得
@@ -14,7 +42,9 @@ function index() {
 
 // 更新
 function update($data) {
-  updateDb($data['id'], $data['todo']);  // updateDb関数の引数に$dataのidとtodoを入れる
+  if(checkToken($data['token'])){  // checkToken関数の引数に$dataのtokenを入れて実行結果が0でなかったら中の処理を行う
+    updateDb($data['id'], $data['todo']);  // updateDb関数の引数に$dataのidとtodoを入れる
+  }
 }
 
 function checkReferer() {

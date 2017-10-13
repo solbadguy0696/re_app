@@ -1,6 +1,7 @@
 <?php
 // functions.phpの設定したファイルを読み込み、使用可能になる
-  require('functions.php');  
+  require('functions.php');
+  unsetSession();
 ?>
 <!DOCTYPE html>
 <html lang="ja">
@@ -25,14 +26,14 @@
       </tr>
       <?php foreach(index() as $todo): ?>  <!--繰り返し処理、index()の中から一個づつ取り出して$todoに入れる-->
         <tr>
-          <td><?php echo $todo['id'] ?></td>  <!--$todo配列のidを出力-->
-          <td><?php echo $todo['todo'] ?></td>  <!--$todo配列のtodoを出力-->
+          <td><?php echo h($todo['id']) ?></td>  <!--$todo配列のidを出力-->
+          <td><?php echo h($todo['todo']) ?></td>  <!--$todo配列のtodoを出力-->
           <td>
-            <a href="edit.php?id=<?php echo $todo['id'] ?>">  <!--URLクエリをIDにくっつけて更新対象のデータが何であるかをPHP側に伝える-->更新</a>
+            <a href="edit.php?id=<?php echo h($todo['id']) ?>">  <!--URLクエリをIDにくっつけて更新対象のデータが何であるかをPHP側に伝える-->更新</a>
           </td>
           <td>
             <form action="store.php" method="POST">
-              <input type="hidden" name="id" value="<?php echo $todo['id'] ?>">  <!--$todo配列のidを出力-->
+              <input type="hidden" name="id" value="<?php echo h($todo['id']) ?>">  <!--$todo配列のidを出力-->
               <input type="hidden" name="type" value="delete">
               <button type="submit">削除</button>
             </form>
