@@ -62,9 +62,9 @@ function transition($path) {
   }elseif(!$res || !empty($_SESSION['err'])){  //$resではない、または$_SESSION['err']が空でない場合は
     return 'back';
   }elseif($path === '/new.php'){
-    create($data);  // create関数の引数に$_POSTを入れて実行する
+    create($data);  // create関数の引数に$dataを入れて実行する
   }elseif($path === '/edit.php'){
-    update($data);  // update関数の引数に$_POSTを入れて実行する
+    update($data);  // update関数の引数に$dataを入れて実行する
   }
 }
 
@@ -78,6 +78,6 @@ function deleteData($id) {
 }
 
 function validate($data) {
-  return $res = $data != "" ? true : $_SESSION['err'] = '入力がありません';  // $dataの中身があった場合true。なかった場合$_SESSION['err']を$resに代入する
+  return $res = $data != "" ? true : $_SESSION['err'] = '入力がありません';  // $dataの中身があった場合true。なかった場合$_SESSION['err']に入力がありませんを代入する
 }
 ?>

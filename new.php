@@ -10,8 +10,8 @@ setToken();  // setToken();関数を実行
   <title>新規作成</title>
 </head>
 <body>
-  <?php if(isset($_SESSION['err'])): ?>  <!--$_SESSIONのerrに変数が入っているかチェックして、入って居ないなら$_SESSIONのerrを出力-->
-    <p><?php echo $_SESSION['err'] ?></p>
+  <?php if(isset($_SESSION['err'])): ?>  <!--$_SESSIONのerrに変数が入っているかチェックする-->
+    <p><?php echo $_SESSION['err'] ?></p>  <!--$_SESSIONのerrに変数が入っているならそれを出力する-->
   <?php endif; ?>
   <form action="store.php" method="post">  <!--store.phpに遷移する-->
     <input type="hidden" name="token" value="<?php echo h($_SESSION['token']); ?>">
